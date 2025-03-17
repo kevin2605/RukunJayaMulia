@@ -363,6 +363,11 @@
                         </a>
                         <ul class="sidebar-submenu">
                             <li><a class="disable-for-mkt01 disable-for-mkt02"
+                                    href="../Production/material-release-order.php">SKB Produksi
+                                    <h5 class="sub-arrow"><i class="fa fa-angle-right"></i></h5>
+                                </a>
+                            </li>
+                            <li><a class="disable-for-mkt01 disable-for-mkt02"
                                     href="../Production/production-order.php">SPK Produksi
                                     <h5 class="sub-arrow"><i class="fa fa-angle-right"></i></h5>
                                 </a>

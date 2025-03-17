@@ -25,11 +25,11 @@
     }
 
     function viewMut(x) {
-      document.location = "view-mutation-material.php?id=" + x.value;
+      document.location = "view-mutation-fan.php?id=" + x.value;
     }
     function printInv(button) {
       var MutationID = button.value;
-      var url = "../Process/generate_mutationmpc8_pdf.php?MutationID=" + MutationID;
+      var url = "../Process/generate_mutation_fan_pdf.php?MutationID=" + MutationID;
       window.open(url, '_blank');
     }
   </script>

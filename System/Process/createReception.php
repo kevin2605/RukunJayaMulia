@@ -215,7 +215,7 @@ if ($resultH) {
             $queryD = "UPDATE $tableName SET StockQty = StockQty + $qty1 WHERE PartCD  = '$item'";
             $resultD = mysqli_query($conn, $queryD);
 
-            $queryD = "INSERT INTO sparepartflowhistory(Date, ReferenceKey, ItemCD, FlowIn, Description)
+            $queryD = "INSERT INTO sparepartflowhistory(Date, ReferenceKey, PartCD, FlowIn, Description)
                       VALUES ('$datetime','$recid','$item','$qty1', 'Penerimaan Barang')";
             $resultD = mysqli_query($conn, $queryD);
 

@@ -295,13 +295,14 @@ if (isset($_GET['InvoiceID'])) {
     $pdf->SetY(240);
     $pdf->SetFont('Arial', 'B', 9);
     $pdf->Cell(130, 5, 'Total Invoice:', 0, 0, 'R');
-    $pdf->Cell(59, 5, number_format($totalexec, 2, ',', '.'), 0, 1, 'R');
+    //$pdf->Cell(59, 5, number_format($totalexec, 2, ',', '.'), 0, 1, 'R');
+    $pdf->Cell(59, 5, number_format($subtotal, 2, ',', '.'), 0, 1, 'R');
 
     $pdf->Cell(130, 5, '( '.$dpDate.' ) DP:', 0, 0, 'R');
     $pdf->Cell(59, 5, number_format($dpAmount, 2, ',', '.'), 0, 1, 'R');
 
-    $pdf->Cell(130, 5, 'Diskon:', 0, 0, 'R');
-    $pdf->Cell(59, 5, number_format($diskon, 2, ',', '.'), 0, 1, 'R');
+    //$pdf->Cell(130, 5, 'Diskon:', 0, 0, 'R');
+    //$pdf->Cell(59, 5, number_format($diskon, 2, ',', '.'), 0, 1, 'R');
 
     if ($cashdisc == 1) {
         $pdf->Cell(130, 5, 'Diskon Cash :', 0, 0, 'R');
