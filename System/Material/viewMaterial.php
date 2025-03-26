@@ -173,26 +173,13 @@
                                 <div class="col-3"> 
                                     <label class="col-sm-12 col-form-label" for="supplier">Supplier</label>
                                     <?php
-                                        $query = "SELECT SupplierNum, SupplierName FROM supplier WHERE SupplierNum='97546'";
+                                        $query = "SELECT SupplierNum, SupplierName FROM supplier WHERE SupplierNum='".$material["SupplierNum"]."'";
                                         $result = mysqli_query($conn,$query);
                                         while ($row = mysqli_fetch_array($result)) 
                                         {
-                                            echo '<input class="form-control" id="supplier" name="supplier" list="supplierOptions" placeholder="Supplier" value="'.$row["SupplierNum"].' - '.$row["SupplierName"].'">';
+                                            echo '<input class="form-control" id="supplier" name="supplier" list="supplierOptions" placeholder="Supplier" value="'.$row["SupplierNum"].' - '.$row["SupplierName"].'" readonly>';
                                         }
                                     ?>
-                                </div>
-                                <div class="col-6">
-                                    <label class="form-label" for="produk">Produk</label>
-                                    <input class="form-control" id="produk" name="produk" list="produkOptions" value="<?php echo $material["ProductCD"]; ?>" placeholder="Pilih Produk Jadi" readonly>
-                                    <datalist id="produkOptions">
-                                        <?php
-                                        $query = "SELECT ProductCD, ProductName FROM product WHERE Status='1'";
-                                        $result = mysqli_query($conn, $query);
-                                        while ($row = mysqli_fetch_array($result)) {
-                                            echo '<option value="'. $row["ProductCD"] .' - ' . $row["ProductName"] . '"></option>';
-                                        }
-                                        ?>
-                                    </datalist>
                                 </div>
                                 <div class="col-3">
                                     <label class="form-label" for="buyprice">Harga Beli<span style="color:red;">*</span> <i>exclude</i></label>
@@ -203,7 +190,10 @@
                                     <input class="form-control" id="avgprice" name="avgprice" type="text" placeholder="0" value="Rp <?php echo number_format($material["AvgPrice"],2,',','.'); ?>" readonly>
                                 </div>
                                 <div class="col-6">
-                                    <label class="form-label" for="keterangan2">Keterangan 2</label>
+                                    
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label" for="keterangan2">Keterangan 1</label>
                                     <input class="form-control" id="keterangan1" name="keterangan1" type="text" placeholder="..." value="<?php echo $material["Desc_1"]; ?>" readonly>
                                 </div>
                                 <div class="col-6"></div>
@@ -248,9 +238,23 @@
                                     </div>
                                 </div>
                                 <hr>
+                                <?php
+                                    $can_update = false;
+                                    $query = "SELECT BahanBaku FROM useraccesslevel WHERE UserID = '$userID'";
+                                    $result = mysqli_query($conn, $query);
+                                    $row = mysqli_fetch_assoc($result);
+                                    $access_level = $row['BahanBaku'];
+                                    if (strpos($access_level, 'U') !== false) {
+                                        $can_update = true;
+                                    }
+                                ?>
                                 <div class="col-12">
                                     <a class="btn btn-warning" href="material.php">Back</a>
-                                    <button class="btn btn-info" type="button" onclick="editMaterial(this)" value="<?php echo $_GET["matcd"] ?>">Edit</button>
+                                    <?php
+                                      if($can_update){
+                                        echo '<button class="btn btn-info" type="button" onclick="editMaterial(this)" value="'.$_GET["matcd"].'">Edit</button>';
+                                      }
+                                    ?>
                                 </div>
                             </form>
                         </div>

@@ -357,12 +357,11 @@ if (isset($_POST["btnSearch"]) && isset($_POST["formCoretax"])) {
                     break;
                 }
                 case '13': {
-                    //JIKA PAKAI KTP DIISI NIK
+                    $temp = "-";
+                    //Nomor Dokumen Pembeli
                     if($rowHeader["NIK"] != "" && $rowHeader["NIK"] != '-'){
                         //$temp = str_pad($rowHeader["NIK"],17," ",STR_PAD_RIGHT);
-                        $temp = $rowHeader["NIK"] . ' ';
-                    }else{
-                        $temp = "-";
+                        $temp = $rowHeader["NIK"] . "'";
                     }
                     $sheetFaktur->setCellValue('N' . $exRow, $temp);
                     break;

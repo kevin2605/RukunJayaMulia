@@ -26,40 +26,66 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
-    let estoutcome = 0;
-    let exoutcome = 0;
-    let loss = 0;
-    $("document").ready(function () {
-      $("#buttonGen").click(function () {
-        //get customer
-        var x = document.getElementById("spk").value;
-        var spk = x.split(" | ");
-        console.log(spk[0]);
-        $.ajax({
-          type: "POST",
-          url: "../Process/getSPKDetail.php",
-          data: "spk=" + spk[0],
-          success: function (result) {
-            var res = JSON.parse(result);
-            $.each(res, function (index, value) {
-              document.getElementById("bahan").value = value.MaterialCD;
-              document.getElementById("nbahan").value = value.MaterialName;
-              document.getElementById("produk").value = value.ProductCD;
-              document.getElementById("nproduk").value = value.ProductName;
-              document.getElementById("mesin").value = value.MachineCD;
-              document.getElementById("nmesin").value = value.MachineName;
-              estoutcome = value.EstimateOutcome;
-              exoutcome = value.ExactOutcome;
-              loss = value.ProdLoss;
-              console.log(value.EstimateOutcome);
-              console.log(value.ExactOutcome);
-              console.log(value.ProdLoss);
-              //eror
-            });
-          }
-        });
+    var weight = 0;
+    function getProdOrder(x){
+      var spk = x.value.split(" | ")[0];
+      $.ajax({
+        type: "POST",
+        url: "../Process/getSPKDetail.php",
+        data: "spk=" + spk,
+        success: function (result) {
+          var res = JSON.parse(result);
+          $.each(res, function (index, value) {
+            document.getElementById("desc").value = value.Description;
+            document.getElementById("group").value = value.GroupCD + " - " + value.GroupName;
+            document.getElementById("mesin").value = value.MachineCD + " - " + value.MachineName;
+            document.getElementById("produk").value = value.ProductCD + " - " + value.ProductName;
+            document.getElementById("qtyspk").value = formatRupiah(value.QtyOrder);
+            document.getElementById("qtyrcv").value = formatRupiah(value.QtyProduced);
+            weight = value.WeightPerPcs;
+            //eror
+          });
+        }
       });
-    });
+    }
+
+    function countWeight(x){
+      //untuk jumlah hasil produksi
+      var qty = x.value.replace('.', '');
+      x.value = formatRupiah(x.value); 
+
+      //hitung hasil + terproduksi < jumlah spk
+      let qtySPK = document.getElementById("qtyspk").value.replace('.', '');
+      let qtyRCV = document.getElementById("qtyrcv").value;
+      let qtytotal = (+qty + +qtyRCV);
+      
+      if(qtytotal > qtySPK){
+        document.getElementById("submit").disabled = true;
+      }else{
+        document.getElementById("submit").disabled = false;
+      }
+
+      //untuk total berat
+      var tWeight = qty * weight + "";
+      document.getElementById("tweight").value = formatRupiah(tWeight) + " gr"; 
+    }
+
+    function formatRupiah(angka, prefix){
+      var number_string = angka.replace(/[^,\d]/g, '').toString(),
+      split   		= number_string.split(','),
+      sisa     		= split[0].length % 3,
+      rupiah     		= split[0].substr(0, sisa),
+      ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+      
+      // tambahkan titik jika yang di input sudah menjadi angka ribuan
+      if(ribuan){
+        separator = sisa ? '.' : '';
+        rupiah += separator + ribuan.join('.');
+      }
+    
+      rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+      return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
 
     function validateForm() {
       let newoutcome = document.getElementById("hasil").value;
@@ -259,7 +285,7 @@
 
                         <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog"
                           aria-labelledby="myExtraLargeModal" aria-hidden="true">
-                          <div class="modal-dialog modal-lg">
+                          <div class="modal-dialog modal-xl">
                             <div class="modal-content">
                               <div class="modal-header">
                                 <h4 class="modal-title" id="myExtraLargeModal">Input Hasil Produksi</h4>
@@ -268,89 +294,109 @@
                               </div>
                               <div class="modal-body dark-modal">
                                 <div class="card-body custom-input">
-                                  <form class="row g-3" action="../Process/createProdOutcome.php" method="POST"
-                                    onsubmit="return validateForm()">
-                                    <div class="col-9">
-                                      <label class="col-sm-12 col-form-label" for="spk">Pilih SPK</label>
-                                      <input class="form-control" id="spk" name="spk" list="spkOptions"
-                                        placeholder="-- Pilih SPK --" required>
-                                      <datalist id="spkOptions">
-                                        <?php
-                                        $queryc = "SELECT ProductionOrderID, Description FROM productionorder WHERE Status=0";
-                                        $resultc = mysqli_query($conn, $queryc);
-                                        while ($rowc = mysqli_fetch_array($resultc)) {
-                                          echo '<option value="' . $rowc["ProductionOrderID"] . ' | ' . $rowc["Description"] . '"></option>';
-                                        }
-                                        ?>
-                                      </datalist>
+                                  <form class="row g-3" action="../Process/createProdOutcome.php" method="POST" onsubmit="return validateForm()">
+                                    <div class="col-4">
+                                        <div class="col-12">
+                                            <label class="form-label" for="spk">Nomor SPK<span style="color:red;">*</span></label>
+                                            <input class="form-control" id="spk" name="spk" list="spkOptions" onchange="getProdOrder(this)" placeholder="-- Pilih SPK --" required>
+                                            <datalist id="spkOptions">
+                                              <?php
+                                                  $query = "SELECT ProductionOrderID, Description FROM productionorder WHERE Status=0";
+                                                  $result = mysqli_query($conn,$query);
+                                                  while($row = mysqli_fetch_array($result)){
+                                                      echo '<option value="'.$row["ProductionOrderID"].' | '.$row["Description"].'"></option>';
+                                                  }
+                                              ?>
+                                            </datalist>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label" for="tanggal">Tanggal</label>
+                                            <input class="form-control" id="tanggal" name="tanggal" type="date" value="<?php echo date('Y-m-d'); ?>" readonly>
+                                        </div>
+                                        <div class="col-12">
+                                            <label class="form-label" for="desc">Keterangan</label>
+                                            <textarea class="form-control" id="desc" name="desc" rows="5" readonly></textarea>
+                                        </div>
                                     </div>
-                                    <div class="col-3">
-                                      <label class="col-sm-12 col-form-label" for="buttonGen">Generate</label>
-                                      <button class="form-control btn btn-primary" type="button"
-                                        id="buttonGen">Generate</button>
+                                    <div class="col-8" style="border-left:1px solid black;">
+                                        <div class="tab-content" id="myTabContent">
+                                            <div class="tab-pane fade show active" id="bahan" role="tabpanel" aria-labelledby="home-tab">
+                                                <div class="row custom-input" style="padding-left:5px;">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="mb-3 row">
+                                                                <div class="col-sm-3">
+                                                                    <label class="form-label" for="bahan">Group Bahan</label>
+                                                                </div>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control" id="group" name="group" type="text" placeholder="-" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <div class="col-sm-3">
+                                                                    <label class="form-label" for="mesin">Mesin</label>
+                                                                </div>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control" id="mesin" name="mesin" type="text" placeholder="-" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <div class="col-sm-3">
+                                                                    <label class="form-label" for="produk">Produk Jadi</label>
+                                                                </div>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control" id="produk" name="produk" type="text" placeholder="-" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3" for="qtyspk">Jumlah SPK (pcs)</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control" id="qtyspk" type="text" placeholder="0" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3" for="qtyrcv">Telah Diterima (pcs)</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control" id="qtyrcv" type="text" placeholder="0" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3" for="quantity">Jumlah Hasil (pcs)<span style="color:red;">*</span></label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control" id="quantity" name="quantity" type="text" onkeyup="countWeight(this)" placeholder="0" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                                <label class="col-sm-3" for="tweight">Total Berat</label>
+                                                                <div class="col-sm-9">
+                                                                    <input class="form-control" id="tweight" name="tweight" type="text" placeholder="0 gr" readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-3 row">
+                                                              <label class="col-sm-3" for="workhour">Jam Kerja</label>
+                                                              <div class="col-sm-9">
+                                                                <select class="form-select" id="workhour" name="workhour" required="">
+                                                                  <option>5</option>
+                                                                  <option selected>8</option>
+                                                                  <option>12</option>
+                                                                </select>
+                                                              </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="col-6">
-                                      <label class="col-sm-12 col-form-label" for="bahan">Kode Bahan</label>
-                                      <input class="form-control" id="bahan" name="bahan" type="text" placeholder="-"
-                                        readonly>
-                                    </div>
-                                    <div class="col-6">
-                                      <label class="col-sm-12 col-form-label" for="nbahan">Bahan Baku</label>
-                                      <input class="form-control" id="nbahan" type="text" placeholder="-" readonly>
-                                    </div>
-                                    <div class="col-6">
-                                      <label class="col-sm-12 col-form-label" for="produk">Kode Produk</label>
-                                      <input class="form-control" id="produk" name="produk" type="text" placeholder="-"
-                                        readonly>
-                                    </div>
-                                    <div class="col-6">
-                                      <label class="col-sm-12 col-form-label" for="nproduk">Produk</label>
-                                      <input class="form-control" id="nproduk" type="text" placeholder="-" readonly>
-                                    </div>
-                                    <div class="col-6">
-                                      <label class="col-sm-12 col-form-label" for="mesin">Kode Mesin</label>
-                                      <input class="form-control" id="mesin" name="mesin" type="text" placeholder="-"
-                                        readonly>
-                                    </div>
-                                    <div class="col-6">
-                                      <label class="col-sm-12 col-form-label" for="nmesin">Mesin</label>
-                                      <input class="form-control" id="nmesin" type="text" placeholder="-" readonly>
-                                    </div>
-                                    <div class="col-6">
-                                      <label class="col-sm-12 col-form-label" for="workhour">Jam Kerja</label>
-                                      <select class="form-select" id="workhour" name="workhour" required="">
-                                        <option>5</option>
-                                        <option selected>8</option>
-                                        <option>12</option>
-                                      </select>
-                                    </div>
-                                    <div class="col-6">
-                                      <label class="col-sm-12 col-form-label" for="shift">Shift</label>
-                                      <input class="form-control" id="shift" name="shift" list="listshift" required>
-                                      <datalist id="listshift">
-                                        <option value="1"></option>
-                                        <option value="2"></option>
-                                        <option value="3"></option>
-                                      </datalist>
-                                    </div>
-                                    <div class="col-6">
-                                      <label class="col-sm-12 col-form-label" for="hasil">Hasil Produksi</label>
-                                      <input class="form-control digits" id="hasil" name="hasil" type="number"
-                                        placeholder="0" required>
-                                    </div>
-                                    <div class="col-6">
-                                      <label class="col-sm-12 col-form-label" for="rusak">Kerusakan</label>
-                                      <input class="form-control digits" id="rusak" name="rusak" type="number"
-                                        placeholder="0" required>
-                                    </div>
-                                    <div class="col-6">
-                                      <input class="checkbox_animated" id="chk-Add" name="closeorder" value="1" type="checkbox"><label class="text-danger">Tutup SPK Produksi (Akhir produksi)</label>
-                                    </div>
-                                    <br>
                                     <hr>
                                     <div class="col-12">
-                                      <input class="btn btn-primary" type="submit" value="Save">
-                                      <!--<button class="btn btn-primary" type="button" onclick="validateForm()">Save</button>-->
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" id="flexSwitchCheckDefault" type="checkbox" role="switch" required>
+                                            <label class="form-check-label" for="flexSwitchCheckDefault">Are you sure above information are true</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary" id="submit" type="submit">Submit</button>
                                     </div>
                                   </form>
                                 </div>
@@ -378,7 +424,6 @@
                                     <th scope="col">No. SPK</th>
                                     <th scope="col">Mesin</th>
                                     <th scope="col">Produk</th>
-                                    <th scope="col">Shift</th>
                                     <th scope="col">Jam Kerja</th>
                                     <th scope="col">Hasil Produksi</th>
                                     <th scope="col">Target</th>
@@ -386,11 +431,11 @@
                                 </thead>
                                 <tbody>
                                   <?php
-                                  $query = "SELECT pr.CreatedOn, pr.ProductionOrderID, m.MachineName, m.Speed, p.ProductName, pr.Shift, pr.WorkingHour, pr.ProdOutcome
-                                                        FROM productionresulthistory pr, machine m, product p
-                                                        WHERE pr.MachineCD=m.MachineCD
-                                                              AND pr.ProductCD=p.ProductCD
-                                                        ORDER BY 1 DESC";
+                                  $query = "SELECT pr.CreatedOn, pr.ProductionOrderID, m.MachineName, m.Speed, m.Cavity, p.ProductName, pr.WorkingHour, pr.ProdOutcome
+                                            FROM productionresulthistory pr, machine m, product p
+                                            WHERE pr.MachineCD=m.MachineCD
+                                                  AND pr.ProductCD=p.ProductCD
+                                            ORDER BY 1 DESC";
                                   $result = mysqli_query($conn, $query);
                                   while ($row = mysqli_fetch_array($result)) {
                                     echo '
@@ -399,12 +444,11 @@
                                                         <td>' . $row["ProductionOrderID"] . '</td>
                                                         <td>' . $row["MachineName"] . '</td>
                                                         <td>' . $row["ProductName"] . '</td>
-                                                        <td>' . $row["Shift"] . '</td>
                                                         <td>' . $row["WorkingHour"] . '</td>
                                                         <td>' . number_format($row["ProdOutcome"], 0, '.', ',') . '</td>';
 
                                     //calculate target
-                                    $target = $row["Speed"] * 60 * $row["WorkingHour"];
+                                    $target = $row["Speed"] * $row["Cavity"] * 60 * $row["WorkingHour"];
                                     $currTarget = ($row["ProdOutcome"] / $target) * 100;
                                     if ($currTarget >= 85) {
                                       echo '<td><span class="badge badge-light-success">Yes</span></td>';

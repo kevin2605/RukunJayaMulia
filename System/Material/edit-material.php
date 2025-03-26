@@ -176,19 +176,6 @@
                                         ?>
                                     </datalist>
                                 </div>
-                                <div class="col-6">
-                                    <label class="form-label" for="produk">Produk<span style="color:red;">*</span></label>
-                                    <input class="form-control" id="produk" name="produk" list="produkOptions" value="<?php echo $material["ProductCD"]; ?>" placeholder="Pilih Produk Jadi" required>
-                                    <datalist id="produkOptions">
-                                        <?php
-                                        $query = "SELECT ProductCD, ProductName FROM product WHERE Status='1'";
-                                        $result = mysqli_query($conn, $query);
-                                        while ($row = mysqli_fetch_array($result)) {
-                                            echo '<option value="'. $row["ProductCD"] .' - ' . $row["ProductName"] . '"></option>';
-                                        }
-                                        ?>
-                                    </datalist>
-                                </div>
                                 <div class="col-3">
                                     <label class="form-label" for="buyprice">Harga Beli<span style="color:red;">*</span> <i>exclude</i></label>
                                     <input class="form-control" id="buyprice" name="buyprice" type="text" placeholder="0" value="<?php echo $material["BuyPrice"]; ?>" required>
@@ -198,7 +185,10 @@
                                     <input class="form-control" id="avgprice" name="avgprice" type="text" placeholder="0" value="<?php echo $material["AvgPrice"]; ?>" readonly>
                                 </div>
                                 <div class="col-6">
-                                    <label class="form-label" for="keterangan2">Keterangan 2</label>
+                                  
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label" for="keterangan2">Keterangan 1</label>
                                     <input class="form-control" id="keterangan1" name="keterangan1" type="text" placeholder="..." value="<?php echo $material["Desc_1"]; ?>">
                                 </div>
                                 <div class="col-6"></div>

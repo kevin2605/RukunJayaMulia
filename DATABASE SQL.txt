@@ -614,37 +614,37 @@ CREATE TABLE productionorder(
 	CreatedOn datetime NOT NULL,
 	CreatedBy varchar(5) NOT NULL,
 	Description tinytext DEFAULT NULL,
+	GroupCD varchar(5) NOT NULL,
 	MachineCD varchar(20) NOT NULL,
-	MaterialCD  varchar(20) NOT NULL,
-	UnitCD varchar(5) NOT NULL,
-	MaterialOut FLOAT NOT NULL,
 	ProductCD varchar(20) NOT NULL,
-	EstimateOutcome FLOAT NOT NULL,
-	ExactOutcome FLOAT DEFAULT NULL,
-	ProdLoss FLOAT DEFAULT NULL,
+	UnitCD varchar(5) NOT NULL,
+	QtyOrder FLOAT NOT NULL,
+	QtyProduced FLOAT NOT NULL,
 	Status int(1) NOT NULL,
 	PRIMARY KEY (ProductionOrderID)
 )ENGINE=INNODB;
 
 ALTER TABLE `productionorder`
+  ADD CONSTRAINT `FK_GroupCD_productionorder` FOREIGN KEY (`GroupCD`) REFERENCES `groups` (`GroupCD`),
   ADD CONSTRAINT `FK_MachineCD_productionorder` FOREIGN KEY (`MachineCD`) REFERENCES `machine` (`MachineCD`),
-  ADD CONSTRAINT `FK_MaterialCD_productionorder` FOREIGN KEY (`MaterialCD`) REFERENCES `material` (`MaterialCD`),
   ADD CONSTRAINT `FK_UnitCD_productionorder` FOREIGN KEY (`UnitCD`) REFERENCES `unit` (`UnitCD`),
   ADD CONSTRAINT `FK_ProductCD_productionorder` FOREIGN KEY (`ProductCD`) REFERENCES `product` (`ProductCD`);
 
 CREATE TABLE productionresulthistory(
 	ProductionOrderID varchar(15) NOT NULL,
+	GroupCD varchar(5) NOT NULL,
 	MachineCD varchar(20) NOT NULL,
 	ProductCD varchar(20) NOT NULL,
 	CreatedOn date NOT NULL,
 	WorkingHour int(2) NOT NULL,
 	ProdOutcome FLOAT NOT NULL,
-	ProdLoss FLOAT NOT NULL,
+	TotalWeight FLOAT NOT NULL,
 	Shift int(1) NOT NULL
 )ENGINE=INNODB;
 
 ALTER TABLE `productionresulthistory`
   ADD CONSTRAINT `FK_ProductionOrderID_prodreshist` FOREIGN KEY (`ProductionOrderID`) REFERENCES `productionorder` (`ProductionOrderID`),
+  ADD CONSTRAINT `FK_GroupCD_prodreshist` FOREIGN KEY (`GroupCD`) REFERENCES `groups` (`GroupCD`),
   ADD CONSTRAINT `FK_MachineCD_prodreshist` FOREIGN KEY (`MachineCD`) REFERENCES `machine` (`MachineCD`),
   ADD CONSTRAINT `FK_ProductCD_prodreshist` FOREIGN KEY (`ProductCD`) REFERENCES `product` (`ProductCD`);
 
@@ -1210,30 +1210,63 @@ ALTER TABLE `empsalarydetail`
 
 ===============================================================================================================================================
 
-CREATE TABLE materialreleaseheader(
-	ReleaseID varchar(15) NOT NULL,
-	CreatedOn DATETIME NOT NULL,
-	Description TINYTEXT,
-	CreatedBy varchar(6) NOT NULL,
-	PRIMARY KEY (ReleaseID)
-) ENGINE=InnoDB;
-
-CREATE TABLE materialreleasedetail(
-	ReleaseID varchar(15) NOT NULL,
+CREATE TABLE materialreleaseorder(
+	ReleaseOrderID varchar(15) NOT NULL,
 	CreatedOn DATETIME NOT NULL,
 	MaterialCD varchar(20) NOT NULL,
+	GroupCD varchar(5) NOT NULL,
+	Quantity int(20) NOT NULL,
 	UnitCD varchar(5) NOT NULL,
-	Quantity int(10) NOT NULL,
+	Description TINYTEXT,
+	CreatedBy varchar(5) NOT NULL,
+	PRIMARY KEY(ReleaseOrderID)
 ) ENGINE=InnoDB;
-
-CREATE TABLE materialledger(
-	No auto_increment,
+ALTER TABLE `materialreleaseorder`
+	ADD CONSTRAINT `FK_MaterialCD_MRO` FOREIGN KEY (`MaterialCD`) REFERENCES `material` (`MaterialCD`),
+	ADD CONSTRAINT `FK_GroupCD_MRO` FOREIGN KEY (`GroupCD`) REFERENCES `groups` (`GroupCD`),
+	ADD CONSTRAINT `FK_UnitCD_MRO` FOREIGN KEY (`UnitCD`) REFERENCES `unit` (`UnitCD`),
+	ADD CONSTRAINT `FK_UserID_MRO` FOREIGN KEY (`CreatedBy`) REFERENCES `systemuser` (`UserID`);
+	
+CREATE TABLE mat_ppk_ledger(
+	No int auto_increment,
 	CreatedOn DATETIME NOT NULL,
-	Periode varchar(20) NOT NULL,
-	ComponentCode varchar(20) NOT NULL,
-	ComponentValue int(10) NOT NULL,
-	Multiplier int(10) NOT NULL
+	ReferenceKey varchar(15) NOT NULL,
+	MaterialCD varchar(20) NOT NULL,
+	Quantity int(20) NOT NULL,
+	UnitCD varchar(5) NOT NULL,
+	InVsOut int(1) NOT NULL,
+	RemainingAmount int(10) NOT NULL,
+	PRIMARY KEY(No)
 ) ENGINE=InnoDB;
-ALTER TABLE `empsalarydetail`
-	ADD CONSTRAINT `FK_SlipNum_empsalaryd` FOREIGN KEY (`SlipNum`) REFERENCES `empsalaryheader` (`SlipNum`),
-	ADD CONSTRAINT `FK_NIK_empsalaryd` FOREIGN KEY (`NIK`) REFERENCES `employee` (`NIK`);
+ALTER TABLE `mat_ppk_ledger`
+	ADD CONSTRAINT `FK_UnitCD_PPK_LDG` FOREIGN KEY (`UnitCD`) REFERENCES `unit` (`UnitCD`);
+
+CREATE TABLE mat_pph_ledger(
+	No int auto_increment,
+	CreatedOn DATETIME NOT NULL,
+	ReferenceKey varchar(15) NOT NULL,
+	MaterialCD varchar(20) NOT NULL,
+	Quantity int(20) NOT NULL,
+	UnitCD varchar(5) NOT NULL,
+	InVsOut int(1) NOT NULL,
+	RemainingAmount int(10) NOT NULL,
+	PRIMARY KEY(No)
+) ENGINE=InnoDB;
+ALTER TABLE `mat_pph_ledger`
+	ADD CONSTRAINT `FK_UnitCD_PPH_LDG` FOREIGN KEY (`UnitCD`) REFERENCES `unit` (`UnitCD`);
+
+CREATE TABLE mat_petk_ledger(
+	No int auto_increment,
+	CreatedOn DATETIME NOT NULL,
+	ReferenceKey varchar(15) NOT NULL,
+	MaterialCD varchar(20) NOT NULL,
+	Quantity int(20) NOT NULL,
+	UnitCD varchar(5) NOT NULL,
+	InVsOut int(1) NOT NULL,
+	RemainingAmount int(10) NOT NULL,
+	PRIMARY KEY(No)
+) ENGINE=InnoDB;
+ALTER TABLE `mat_petk_ledger`
+	ADD CONSTRAINT `FK_UnitCD_PETK_LDG` FOREIGN KEY (`UnitCD`) REFERENCES `unit` (`UnitCD`);
+
+===============================================================================================================================================

@@ -501,23 +501,6 @@
                                                                                         ?>
                                                                                     </datalist>
                                                                                 </div>
-                                                                                <div class="col-6">
-                                                                                    <label class="form-label"
-                                                                                        for="produk">Produk</label>
-                                                                                    <input class="form-control"
-                                                                                        id="produk" name="produk"
-                                                                                        list="produkOptions"
-                                                                                        placeholder="Produk Jadi">
-                                                                                    <datalist id="produkOptions">
-                                                                                        <?php
-                                                                                        $query = "SELECT ProductCD, ProductName FROM product WHERE Status='1'";
-                                                                                        $result = mysqli_query($conn, $query);
-                                                                                        while ($row = mysqli_fetch_array($result)) {
-                                                                                            echo '<option value="' . $row["ProductCD"] . ' - ' . $row["ProductName"] . '"></option>';
-                                                                                        }
-                                                                                        ?>
-                                                                                    </datalist>
-                                                                                </div>
                                                                                 <div class="col-3">
                                                                                     <label class="form-label"
                                                                                         for="buyprice">Harga
@@ -537,6 +520,9 @@
                                                                                         id="avgprice" name="avgprice"
                                                                                         type="text" placeholder="0"
                                                                                         readonly>
+                                                                                </div>
+                                                                                <div class="col-6">
+                                                                                    
                                                                                 </div>
                                                                                 <div class="col-6">
                                                                                     <label class="form-label"
@@ -745,7 +731,7 @@
                                                                             <td>' . $row["MaterialCD"] . '</td>
                                                                             <td><a href="material-history.php?matcd=' . $row["MaterialCD"] . '">' . $row["MaterialName"] . '</a></td>
                                                                             <td>' . $row["WarehCD"] . '</td>
-                                                                            <td>' . $row["StockQty"] . '</td>
+                                                                            <td>' . number_format($row["StockQty"],0,',','.') . '</td>
                                                                             <td>' . $row["UnitCD_2"] . '</td>
                                                                             <td>' . $row["LastEdit"] . '</td>
                                                                             <td> 

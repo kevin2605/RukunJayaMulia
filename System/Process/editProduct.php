@@ -15,6 +15,7 @@ $group = $_POST["group"];
 $gudang = $_POST["gudang"];
 $supplier = $_POST["supplier"];
 $pcdperdos = $_POST["pcsperdos"];
+$weight = $_POST["weight"];
 $boxpanjang = $_POST["boxpanjang"];
 $boxlebar = $_POST["boxlebar"];
 $boxtinggi = $_POST["boxtinggi"];
@@ -27,7 +28,7 @@ $createdOn = date('Y-m-d H:i:s');
 
 
 $query = "UPDATE `product` SET `ProductCD`='$kodeproduk', `ProductName`='$namaproduk', `Sequence`='$urutanreport', `CategoryCD`='$kategori', `GroupCD`='$group', 
-          `UnitCD`='$satuan', `WarehCD`='$gudang', `SupplierNum`='$supplier', `PcsPerBox`='$pcdperdos', `BoxLength`='$boxpanjang', `BoxWidth`='$boxlebar', `BoxHeight`='$boxtinggi',
+          `UnitCD`='$satuan', `WarehCD`='$gudang', `SupplierNum`='$supplier', `PcsPerBox`='$pcdperdos', `WeightPerPcs`='$weight', `BoxLength`='$boxpanjang', `BoxWidth`='$boxlebar', `BoxHeight`='$boxtinggi',
           `Sales`='$rulesjual', `Purchase`='$rulesbeli', `Production`='$rulesproduksi', `Transaction`='$rulestransaksi', `Status`='$status', `LastEdit`='$createdOn'
           WHERE `ProductCD`='$oldkodeproduk'";
 $result = mysqli_query($conn, $query);

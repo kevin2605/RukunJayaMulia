@@ -70,9 +70,9 @@
                             <div class="card height-equal">
                                 <div class="card-body custom-input">
                                     <?php
-                                    $queryp = "SELECT * FROM product WHERE ProductCD='" . $_GET["prodcd"] . "'";
-                                    $resultp = mysqli_query($conn, $queryp);
-                                    $product = mysqli_fetch_assoc($resultp);
+                                        $queryp = "SELECT * FROM product WHERE ProductCD='" . $_GET["prodcd"] . "'";
+                                        $resultp = mysqli_query($conn, $queryp);
+                                        $product = mysqli_fetch_assoc($resultp);
                                     ?>
                                     <form class="row g-3" action="../Process/editProduct.php" method="POST">
                                         <h5>Header Barang</h5>
@@ -191,33 +191,36 @@
                                             <div class="tab-pane fade show active" id="home" role="tabpanel"
                                                 aria-labelledby="home-tab">
                                                 <div class="row g-3">
+                                                    <div class="col-4">
+                                                        <label class="form-label" for="pcsperdos">Pcs/dos</label>
+                                                        <input class="form-control" id="pcsperdos" name="pcsperdos"
+                                                            type="text" placeholder="0"
+                                                            value="<?php echo $product["PcsPerBox"]; ?>" readonly>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <label class="form-label" for="weight">Berat/Pcs</label>
+                                                        <input class="form-control" id="weight" name="weight"
+                                                            type="text" placeholder="0"
+                                                            value="<?php echo $product["WeightPerPcs"]; ?>" readonly>
+                                                    </div>
                                                     <h5>Dimensi Dus<span style="color:red;">*</span></h5>
                                                     <div class="col-4">
                                                         <label class="form-label" for="boxpanjang">Panjang</label>
                                                         <input class="form-control" id="boxpanjang" name="boxpanjang"
-                                                            type="text" placeholder="ABXXXX"
+                                                            type="text" placeholder="0"
                                                             value="<?php echo $product["BoxLength"]; ?>" readonly>
                                                     </div>
                                                     <div class="col-4">
                                                         <label class="form-label" for="boxlebar">Lebar</label>
                                                         <input class="form-control" id="boxlebar" name="boxlebar"
-                                                            type="text" placeholder="ABXXXX"
+                                                            type="text" placeholder="0"
                                                             value="<?php echo $product["BoxWidth"]; ?>" readonly>
                                                     </div>
                                                     <div class="col-4">
                                                         <label class="form-label" for="boxtinggi">Tinggi</label>
                                                         <input class="form-control" id="boxtinggi" name="boxtinggi"
-                                                            type="text" placeholder="ABXXXX"
+                                                            type="text" placeholder="0"
                                                             value="<?php echo $product["BoxHeight"]; ?>" readonly>
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <label class="form-label" for="pcsperdos">Pcs/dos</label>
-                                                        <input class="form-control" id="pcsperdos" name="pcsperdos"
-                                                            type="text" placeholder="ABXXXX"
-                                                            value="<?php echo $product["PcsPerBox"]; ?>" readonly>
-                                                    </div>
-                                                    <div class="col-sm-9">
-
                                                     </div>
                                                     <div class="col-sm-5">
                                                         <!-- checked="" -->
@@ -318,9 +321,23 @@
                                             </div>
                                         </div>
                                         <hr>
+                                        <?php
+                                            $can_update = false;
+                                            $query = "SELECT Produk FROM useraccesslevel WHERE UserID = '$userID'";
+                                            $result = mysqli_query($conn, $query);
+                                            $row = mysqli_fetch_assoc($result);
+                                            $access_level = $row['Produk'];
+                                            if (strpos($access_level, 'U') !== false) {
+                                                $can_update = true;
+                                            }
+                                        ?>
                                         <div class="col-12">
                                             <a class="btn btn-warning" href="product.php">Back</a>
-                                            <!-- <button class="btn btn-info" type="button" onclick="editProduct(this)" value="<?php echo $_GET["prodcd"] ?>">Edit</button> -->
+                                            <?php
+                                                if($can_update){
+                                                    echo '<button class="btn btn-info" type="button" onclick="editProduct(this)" value="'.$_GET["prodcd"].'">Edit</button>';
+                                                }
+                                            ?>
                                         </div>
                                     </form>
                                 </div>

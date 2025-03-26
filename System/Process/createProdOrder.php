@@ -5,15 +5,12 @@ include "../DBConnection.php";
 date_default_timezone_set("Asia/Jakarta");
 
 // Ambil data dari POST
-$produk = $_POST["produk"];
 $desc = $_POST["desc"];
-$bahan = explode(" - ", $_POST["bahan"]);
-$matcd = $bahan[0];
+$group = explode(" - ",  $_POST["group"])[0];
+$produk = explode(" - ",  $_POST["produk"])[0];
 $unit = $_POST["unit"];
-$flowout = $_POST["flowout"];
-$estimate = $_POST["estimate"];
-$machine = explode(" - ", $_POST["machine"]);
-$maccd = $machine[0];
+$quantity = $_POST["quantity"];
+$machine = explode(" - ", $_POST["machine"])[0];
 $creator = $_COOKIE["UserID"] ?? 'unknown';
 $datetime = date('Y-m-d H:i:s');
 
@@ -39,8 +36,8 @@ if ($rowCheck['total'] >= 2) {
 
     $spk = "SPK-" . date("ym") . "-" . str_pad($lastnumber, 4, "0", STR_PAD_LEFT);
 
-    $query = "INSERT INTO `productionorder`(`ProductionOrderID`, `CreatedOn`, `CreatedBy`, `Description`, `MachineCD`, `MaterialCD`, `UnitCD`, `MaterialOut`, `ProductCD`, `EstimateOutcome`, `ExactOutcome`, `ProdLoss`, `Status`) 
-              VALUES ('$spk','$datetime','$creator','$desc','$maccd','$matcd','$unit','$flowout','$produk','$estimate','0','0','0')";
+    $query = "INSERT INTO `productionorder`(`ProductionOrderID`, `CreatedOn`, `CreatedBy`, `Description`, `GroupCD`, `MachineCD`, `ProductCD`, `UnitCD`, `QtyOrder`, `QtyProduced`, `Status`) 
+              VALUES ('$spk','$datetime','$creator','$desc','$group','$machine','$produk','$unit','$quantity','0','0')";
     $result = mysqli_query($conn, $query);
 
     // Log aksi

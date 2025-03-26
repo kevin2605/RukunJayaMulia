@@ -29,13 +29,13 @@ while($row=mysqli_fetch_array($result))
 {
     echo ' <tr> 
                 <td>'.substr($row["Date"],0,10).' </td>
-                <td>'.number_format($stokawal,0,'.',',').' </td>
-                <td>'.number_format($row["FlowIn"],0,'.',',').'</td>
-                <td>'.number_format($row["FlowOut"],0,'.',',').'</td>';
+                <td>'.number_format($stokawal,0,',','.').' </td>
+                <td>'.number_format($row["FlowIn"],0,',','.').'</td>
+                <td>'.number_format($row["FlowOut"],0,',','.').'</td>';
 
                 $stokakhir = $stokawal + $row["FlowIn"] - $row["FlowOut"];
 
-    echo '      <td>'.number_format($stokakhir,0,'.',',').' </td>
+    echo '      <td>'.number_format($stokakhir,0,',','.').' </td>
                 <td>'.$row["ReferenceKey"].'</td>';
                 if(substr($row["ReferenceKey"],0,3) == "MUT")
                 {

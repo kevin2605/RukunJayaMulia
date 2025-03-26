@@ -64,10 +64,9 @@
                       </div>
                       <div class="card-body">
                         <?php
-                          $query = "SELECT p.ProductionOrderID, p.CreatedOn, m.MachineName, mt.MaterialName, p.MaterialOut, p.UnitCD, pr.ProductName, p.Description, p.EstimateOutcome
-                                    FROM productionorder p, machine m, material mt, product pr
+                          $query = "SELECT p.ProductionOrderID, p.CreatedOn, p.Description, p.GroupCD, m.MachineName, pr.ProductName, p.QtyOrder
+                                    FROM productionorder p, machine m, product pr
                                     WHERE p.MachineCD=m.MachineCD
-                                          AND p.MaterialCD=mt.MaterialCD
                                           AND p.ProductCD=pr.ProductCD
                                           AND p.ProductionOrderID='".$_GET["spk"]."'";
                           $result = mysqli_query($conn,$query);
@@ -84,24 +83,20 @@
                               <td colspan="1">: <?php echo $row["CreatedOn"] ?></td>
                               </tr>
                               <tr> 
+                              <td>Group Bahan</td>
+                              <td colspan="2">: <?php echo $row["GroupCD"] ?></td>
+                              </tr>
+                              <tr> 
                               <td>Mesin</td>
                               <td colspan="2">: <?php echo $row["MachineName"] ?></td>
-                              </tr>
-                              <tr> 
-                              <td>Bahan Baku</td>
-                              <td colspan="2">: <?php echo $row["MaterialName"] ?></td>
-                              </tr>
-                              <tr> 
-                              <td>Bahan Keluar</td>
-                              <td colspan="2">: <?php echo number_format($row["MaterialOut"],0,',','.').' '.$row["UnitCD"] ?></td>
                               </tr>
                               <tr> 
                               <td>Produk Jadi</td>
                               <td colspan="2">: <?php echo $row["ProductName"] ?></td>
                               </tr>
                               <tr> 
-                              <td>Estimasi</td>
-                              <td colspan="2">: <?php echo number_format($row["EstimateOutcome"],0,',','.') ?></td>
+                              <td>Jumlah</td>
+                              <td colspan="2">: <?php echo number_format($row["QtyOrder"],0,',','.') ?></td>
                               </tr>
                               <tr> 
                               <td>Keterangan</td>
@@ -125,36 +120,25 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Tanggal</th>
-                                    <th scope="col">Shift</th>
                                     <th scope="col">Hasil Produksi</th>
-                                    <th scope="col">Kerusakan Produksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                             <?php
                                 $hasilProduksi = 0;
                                 $kerusakan = 0;
-                                $queryd = "SELECT CreatedOn, Shift, ProdOutcome, ProdLoss FROM productionresulthistory WHERE ProductionOrderID='".$_GET["spk"]."'";
+                                $queryd = "SELECT CreatedOn, ProdOutcome FROM productionresulthistory WHERE ProductionOrderID='".$_GET["spk"]."'";
                                 $resultd = mysqli_query($conn,$queryd);
                                 while ($rowd = mysqli_fetch_array($resultd)) 
                                 {
                                     echo '<tr>
                                             <td>'.$rowd["CreatedOn"].'</td>
-                                            <td>'.$rowd["Shift"].'</td>
-                                            <td>'.number_format($rowd["ProdOutcome"],0,'.',',').'</td>
-                                            <td>'.number_format($rowd["ProdLoss"],0,'.',',').'</td>
+                                            <td>'.number_format($rowd["ProdOutcome"],0,',','.').'</td>
                                           </tr>';
-                                    $hasilProduksi += $rowd["ProdOutcome"];
-                                    $kerusakan += $rowd["ProdLoss"];
                                 }
                             ?>
                             </tbody>
                         </table>
-                      </div>
-                      <br>
-                      <div class="row">
-                        <label>Hasil Produksi : <?php echo number_format($hasilProduksi,0,'.',','); echo " (".(($hasilProduksi/$row["EstimateOutcome"])*100)."%)"; ?></label>
-                        <label>Kerusakan Produksi : <?php echo number_format($kerusakan,0,'.',','); echo " (".(($kerusakan/$row["EstimateOutcome"])*100)."%)"; ?></label>
                       </div>
                     </div>
                 </div>

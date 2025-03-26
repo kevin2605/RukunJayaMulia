@@ -186,30 +186,35 @@
                                             <div class="tab-pane fade show active" id="home" role="tabpanel"
                                                 aria-labelledby="home-tab">
                                                 <div class="row g-3">
-
                                                     <div class="col-4">
                                                         <label class="form-label" for="pcsperdos">Pcs/dos</label>
                                                         <input class="form-control" id="pcsperdos" name="pcsperdos"
-                                                            type="text" placeholder="ABXXXX"
+                                                            type="text" placeholder="0"
                                                             value="<?php echo $product["PcsPerBox"]; ?>" required>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <label class="form-label" for="weight">Berat/Pcs</label>
+                                                        <input class="form-control" id="weight" name="weight"
+                                                            type="text" placeholder="0"
+                                                            value="<?php echo $product["WeightPerPcs"]; ?>" required>
                                                     </div>
                                                     <h5>Dimensi Dus<span style="color:red;">*</span></h5>
                                                     <div class="col-4">
                                                         <label class="form-label" for="boxpanjang">Panjang</label>
                                                         <input class="form-control" id="boxpanjang" name="boxpanjang"
-                                                            type="text" placeholder="ABXXXX"
+                                                            type="text" placeholder="0"
                                                             value="<?php echo $product["BoxLength"]; ?>" required>
                                                     </div>
                                                     <div class="col-4">
                                                         <label class="form-label" for="boxlebar">Lebar</label>
                                                         <input class="form-control" id="boxlebar" name="boxlebar"
-                                                            type="text" placeholder="ABXXXX"
+                                                            type="text" placeholder="0"
                                                             value="<?php echo $product["BoxWidth"]; ?>" required>
                                                     </div>
                                                     <div class="col-4">
                                                         <label class="form-label" for="boxtinggi">Tinggi</label>
                                                         <input class="form-control" id="boxtinggi" name="boxtinggi"
-                                                            type="text" placeholder="ABXXXX"
+                                                            type="text" placeholder="0"
                                                             value="<?php echo $product["BoxHeight"]; ?>" required>
                                                     </div>
                                                     <div class="col-sm-4">

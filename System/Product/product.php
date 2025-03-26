@@ -501,144 +501,58 @@
                                                                                         id="home" role="tabpanel"
                                                                                         aria-labelledby="home-tab">
                                                                                         <div class="row g-3">
-
                                                                                             <div class="col-4">
-                                                                                                <label
-                                                                                                    class="form-label"
-                                                                                                    for="pcsperdos">Pcs/dos</label>
-                                                                                                <input
-                                                                                                    class="form-control"
-                                                                                                    id="pcsperdos"
-                                                                                                    name="pcsperdos"
-                                                                                                    type="text"
-                                                                                                    placeholder="0"
-                                                                                                    aria-label="Kode Produk"
-                                                                                                    required>
+                                                                                                <label class="form-label" for="pcsperdos">Pcs/dos</label>
+                                                                                                <input class="form-control" id="pcsperdos" name="pcsperdos" type="text" placeholder="0" required>
+                                                                                            </div>
+                                                                                            <div class="col-4">
+                                                                                                <label class="form-label" for="weight">Berat/Pcs</label>
+                                                                                                <input class="form-control" id="weight" name="weight" type="text" placeholder="0" required>
                                                                                             </div>
                                                                                             <h5>Dimensi Dus<span
                                                                                                     style="color:red;">*</span>
                                                                                             </h5>
                                                                                             <div class="col-4">
-                                                                                                <label
-                                                                                                    class="form-label"
-                                                                                                    for="boxpanjang">Panjang</label>
-                                                                                                <input
-                                                                                                    class="form-control"
-                                                                                                    id="boxpanjang"
-                                                                                                    name="boxpanjang"
-                                                                                                    type="text"
-                                                                                                    placeholder="0"
-                                                                                                    aria-label="Kode Produk"
-                                                                                                    required>
+                                                                                                <label class="form-label" for="boxpanjang">Panjang</label>
+                                                                                                <input class="form-control" id="boxpanjang" name="boxpanjang" type="text" placeholder="0" required>
                                                                                             </div>
                                                                                             <div class="col-4">
-                                                                                                <label
-                                                                                                    class="form-label"
-                                                                                                    for="boxlebar">Lebar</label>
-                                                                                                <input
-                                                                                                    class="form-control"
-                                                                                                    id="boxlebar"
-                                                                                                    name="boxlebar"
-                                                                                                    type="text"
-                                                                                                    placeholder="0"
-                                                                                                    aria-label="Kode Produk"
-                                                                                                    required>
+                                                                                                <label class="form-label" for="boxlebar">Lebar</label>
+                                                                                                <input class="form-control" id="boxlebar" name="boxlebar" type="text" placeholder="0" required>
                                                                                             </div>
                                                                                             <div class="col-4">
-                                                                                                <label
-                                                                                                    class="form-label"
-                                                                                                    for="boxtinggi">Tinggi</label>
-                                                                                                <input
-                                                                                                    class="form-control"
-                                                                                                    id="boxtinggi"
-                                                                                                    name="boxtinggi"
-                                                                                                    type="text"
-                                                                                                    placeholder="0"
-                                                                                                    aria-label="Kode Produk"
-                                                                                                    required>
+                                                                                                <label class="form-label" for="boxtinggi">Tinggi</label>
+                                                                                                <input class="form-control" id="boxtinggi" name="boxtinggi" type="text" placeholder="0" required>
                                                                                             </div>
                                                                                             <div class="col-sm-4">
                                                                                                 <!-- checked="" -->
-                                                                                                <div
-                                                                                                    class="card-wrapper border rounded-3 checkbox-checked">
-                                                                                                    <h6
-                                                                                                        class="sub-title">
-                                                                                                        Rules<span
-                                                                                                            style="color:red;">*</span>
+                                                                                                <div class="card-wrapper border rounded-3 checkbox-checked">
+                                                                                                    <h6 class="sub-title">
+                                                                                                        Rules<span style="color:red;">*</span>
                                                                                                     </h6>
-                                                                                                    <label
-                                                                                                        class="d-block"
-                                                                                                        for="chk-jual"></label>
-                                                                                                    <input
-                                                                                                        class="checkbox_animated"
-                                                                                                        id="chk-jual"
-                                                                                                        name="rulesJual"
-                                                                                                        value="1"
-                                                                                                        type="checkbox">Jual
-                                                                                                    <label
-                                                                                                        class="d-block"
-                                                                                                        for="chk-beli"></label>
-                                                                                                    <input
-                                                                                                        class="checkbox_animated"
-                                                                                                        id="chk-beli"
-                                                                                                        name="rulesBeli"
-                                                                                                        value="1"
-                                                                                                        type="checkbox">Beli
-                                                                                                    <label
-                                                                                                        class="d-block"
-                                                                                                        for="chk-produksi"></label>
-                                                                                                    <input
-                                                                                                        class="checkbox_animated"
-                                                                                                        id="chk-produksi"
-                                                                                                        name="rulesProduksi"
-                                                                                                        value="1"
-                                                                                                        type="checkbox">Produksi
-                                                                                                    <label
-                                                                                                        class="d-block"
-                                                                                                        for="chk-transaksi"></label>
-                                                                                                    <input
-                                                                                                        class="checkbox_animated"
-                                                                                                        id="chk-transaksi"
-                                                                                                        name="rulesTransaksi"
-                                                                                                        value="1"
-                                                                                                        type="checkbox">Transaksi
+                                                                                                    <labelclass="d-block"for="chk-jual"></label>
+                                                                                                    <inputclass="checkbox_animated" id="chk-jual" name="rulesJual" value="1" type="checkbox">Jual
+                                                                                                    <label class="d-block" for="chk-beli"></label>
+                                                                                                    <input class="checkbox_animated" id="chk-beli" name="rulesBeli" value="1" type="checkbox">Beli
+                                                                                                    <label class="d-block" for="chk-produksi"></label>
+                                                                                                    <input class="checkbox_animated" id="chk-produksi" name="rulesProduksi" value="1" type="checkbox">Produksi
+                                                                                                    <label class="d-block" for="chk-transaksi"></label>
+                                                                                                    <input class="checkbox_animated" id="chk-transaksi" name="rulesTransaksi" value="1" type="checkbox">Transaksi
                                                                                                 </div>
                                                                                             </div>
                                                                                             <div class="col-4">
-                                                                                                <div
-                                                                                                    class="card-wrapper border rounded-3 checkbox-checked">
-                                                                                                    <h6
-                                                                                                        class="sub-title">
-                                                                                                        Status?<span
-                                                                                                            style="color:red;">*</span>
+                                                                                                <div class="card-wrapper border rounded-3 checkbox-checked">
+                                                                                                    <h6 class="sub-title">
+                                                                                                        Status?<span style="color:red;">*</span>
                                                                                                     </h6>
-                                                                                                    <div
-                                                                                                        class="radio-form">
-                                                                                                        <div
-                                                                                                            class="form-check">
-                                                                                                            <input
-                                                                                                                class="form-check-input"
-                                                                                                                id="flexRadioDefault3"
-                                                                                                                type="radio"
-                                                                                                                name="produkStatus"
-                                                                                                                value="1"
-                                                                                                                required="">
-                                                                                                            <label
-                                                                                                                class="form-check-label"
-                                                                                                                for="flexRadioDefault3">Active</label>
+                                                                                                    <div class="radio-form">
+                                                                                                        <div class="form-check">
+                                                                                                            <input class="form-check-input" id="flexRadioDefault3" type="radio" name="produkStatus" value="1" required="">
+                                                                                                            <label class="form-check-label" for="flexRadioDefault3">Active</label>
                                                                                                         </div>
-                                                                                                        <div
-                                                                                                            class="form-check">
-                                                                                                            <input
-                                                                                                                class="form-check-input"
-                                                                                                                id="flexRadioDefault4"
-                                                                                                                type="radio"
-                                                                                                                name="produkStatus"
-                                                                                                                value="0"
-                                                                                                                required="">
-                                                                                                            <label
-                                                                                                                class="form-check-label"
-                                                                                                                for="flexRadioDefault4">Inactive</label>
+                                                                                                        <div class="form-check">
+                                                                                                            <input class="form-check-input" id="flexRadioDefault4" type="radio" name="produkStatus" value="0" required="">
+                                                                                                            <label class="form-check-label" for="flexRadioDefault4">Inactive</label>
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>

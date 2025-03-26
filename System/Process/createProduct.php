@@ -13,6 +13,7 @@ $satuan = $_POST["satuan"];
 $gudang = $_POST["gudang"];
 $supplier = $_POST["supplier"];
 $pcdperdos = $_POST["pcsperdos"];
+$weight = $_POST["weight"];
 $boxpanjang = $_POST["boxpanjang"];
 $boxlebar = $_POST["boxlebar"];
 $boxtinggi = $_POST["boxtinggi"];
@@ -29,8 +30,8 @@ if (isset($_COOKIE["UserID"]) && !empty($_COOKIE["UserID"])) {
     die("Error: Cookie 'UserID' tidak ada atau kosong.");
 }
 
-$query = "INSERT INTO `product`(`ProductCD`, `ProductName`, `Sequence`, `StockQty`, `CategoryCD`, `GroupCD`, `UnitCD`, `WarehCD`, `SupplierNum`, `PcsPerBox`, `BoxLength`, `BoxWidth`, `BoxHeight`, `Sales`, `Purchase`, `Production`, `Transaction`, `Status`, `CreatedBy`, `CreatedOn`, `LastEdit`) 
-VALUES ('$kodeproduk','$namaproduk','$urutanreport','0','$kategori','$group','$satuan','$gudang','$supplier','$pcdperdos','$boxpanjang','$boxlebar','$boxtinggi','$rulesjual','$rulesbeli','$rulesproduksi','$rulestransaksi','$status','$creator','$createdOn','$createdOn')";
+$query = "INSERT INTO `product`(`ProductCD`, `ProductName`, `Sequence`, `StockQty`, `CategoryCD`, `GroupCD`, `UnitCD`, `WarehCD`, `SupplierNum`, `PcsPerBox`, `WeightPerPcs`, `BoxLength`, `BoxWidth`, `BoxHeight`, `Sales`, `Purchase`, `Production`, `Transaction`, `Status`, `CreatedBy`, `CreatedOn`, `LastEdit`) 
+VALUES ('$kodeproduk','$namaproduk','$urutanreport','0','$kategori','$group','$satuan','$gudang','$supplier','$pcdperdos','$weight','$boxpanjang','$boxlebar','$boxtinggi','$rulesjual','$rulesbeli','$rulesproduksi','$rulestransaksi','$status','$creator','$createdOn','$createdOn')";
 
 $result = mysqli_query($conn, $query);
 

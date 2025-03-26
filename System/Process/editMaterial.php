@@ -20,8 +20,6 @@ $kategori = $_POST["kategori"];
 $group = $_POST["group"];
 $gudang = $_POST["gudang"];
 $supplier = isset($_POST["supplier"]) ? $_POST["supplier"] : NULL;
-$products = explode(" - ", $_POST["produk"]);
-$product = $products[0];
 $keterangan1 = $_POST["keterangan1"];
 $keterangan2 = $_POST["keterangan2"];
 $keterangan3 = $_POST["keterangan3"];
@@ -33,7 +31,7 @@ $rulestransaksi = $_POST["rulesTransaksi"];
 $status = $_POST["produkStatus"];
 $createdOn = date('Y-m-d H:i:s');
 
-$query = "UPDATE `material` SET `MaterialName`='$namabahan', `Sequence`='$urutanreport', `ProductCD`='$product', `CategoryCD`='$kategori', `GroupCD`='$group', `UnitCD_1`='$satuanpertama', 
+$query = "UPDATE `material` SET `MaterialName`='$namabahan', `Sequence`='$urutanreport', `CategoryCD`='$kategori', `GroupCD`='$group', `UnitCD_1`='$satuanpertama', 
           `UnitCD_2`='$satuankedua', `WarehCD`='$gudang', `SupplierNum`='$supplier', `Desc_1`='$keterangan1', `Desc_2`='$keterangan2', `Desc_3`='$keterangan3', 
           `BuyPrice`='$buyprice', `Sales`='$rulesjual', `Purchase`='$rulesbeli', `Production`='$rulesproduksi', `Transaction`='$rulestransaksi', `Status`='$status', 
           `CreatedBy`='System', `LastEdit`='$createdOn' WHERE `MaterialCD`='$kodebahan'";

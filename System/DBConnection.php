@@ -1,7 +1,7 @@
 <?php
 
-$conn = mysqli_connect("localhost", "root", "", "ptindopackmultiperkasa");
-//$conn = mysqli_connect("localhost", "ptimpcoi_admin", "indopackadmin11", "ptimpcoi_ptindopackmultiperkasa");
+$conn = mysqli_connect("localhost", "root", "", "ptrukunjayamulia");
+//$conn = mysqli_connect("localhost", "rukunjay", "lupaterus2605", "rukunjay_ptrukunjayamulia");
 if (!$conn)
    die("Connection Error");
 

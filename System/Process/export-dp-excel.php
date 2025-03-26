@@ -42,28 +42,30 @@ if (isset($_POST["btnSearch2"]) && isset($_POST["formCoretax"])) {
     $sheetFaktur->getColumnDimension('E')->setWidth('25');
     $sheetFaktur->setCellValue('F3','Dokumen Pendukung');
     $sheetFaktur->getColumnDimension('F')->setWidth('25');
-    $sheetFaktur->setCellValue('G3','Referensi');
+    $sheetFaktur->setCellValue('G3','Periode Dok Pendukung');
     $sheetFaktur->getColumnDimension('G')->setWidth('25');
-    $sheetFaktur->setCellValue('H3','Cap Fasilitas');
+    $sheetFaktur->setCellValue('H3','Referensi');
     $sheetFaktur->getColumnDimension('H')->setWidth('25');
-    $sheetFaktur->setCellValue('I3','ID TKU Penjual');
+    $sheetFaktur->setCellValue('I3','Cap Fasilitas');
     $sheetFaktur->getColumnDimension('I')->setWidth('25');
-    $sheetFaktur->setCellValue('J3','NPWP/NIK Pembeli');
+    $sheetFaktur->setCellValue('J3','ID TKU Penjual');
     $sheetFaktur->getColumnDimension('J')->setWidth('25');
-    $sheetFaktur->setCellValue('K3','Jenis ID Pembeli');
+    $sheetFaktur->setCellValue('K3','NPWP/NIK Pembeli');
     $sheetFaktur->getColumnDimension('K')->setWidth('25');
-    $sheetFaktur->setCellValue('L3','Negara Pembeli');
+    $sheetFaktur->setCellValue('L3','Jenis ID Pembeli');
     $sheetFaktur->getColumnDimension('L')->setWidth('25');
-    $sheetFaktur->setCellValue('M3','Nomor Dokumen Pembeli');
+    $sheetFaktur->setCellValue('M3','Negara Pembeli');
     $sheetFaktur->getColumnDimension('M')->setWidth('25');
-    $sheetFaktur->setCellValue('N3','Nama Pembeli');
+    $sheetFaktur->setCellValue('N3','Nomor Dokumen Pembeli');
     $sheetFaktur->getColumnDimension('N')->setWidth('25');
-    $sheetFaktur->setCellValue('O3','Alamat Pembeli');
+    $sheetFaktur->setCellValue('O3','Nama Pembeli');
     $sheetFaktur->getColumnDimension('O')->setWidth('25');
-    $sheetFaktur->setCellValue('P3','Email Pembeli');
+    $sheetFaktur->setCellValue('P3','Alamat Pembeli');
     $sheetFaktur->getColumnDimension('P')->setWidth('25');
-    $sheetFaktur->setCellValue('Q3','ID TKU Pembeli');
+    $sheetFaktur->setCellValue('Q3','Email Pembeli');
     $sheetFaktur->getColumnDimension('Q')->setWidth('25');
+    $sheetFaktur->setCellValue('R3','ID TKU Pembeli');
+    $sheetFaktur->getColumnDimension('R')->setWidth('25');
 
     //CREATE SHEET DETAIL FAKTUR
     $workbook->createSheet();
@@ -151,7 +153,7 @@ if (isset($_POST["btnSearch2"]) && isset($_POST["formCoretax"])) {
                 }
                 case '7': {
                     //Referensi
-                    $sheetFaktur->setCellValue('G' . $exRow, $rowHeader["DPID"]);
+                    $sheetFaktur->setCellValue('H' . $exRow, $rowHeader["DPID"]);
                     break;
                 }
                 case '8': {
@@ -160,7 +162,7 @@ if (isset($_POST["btnSearch2"]) && isset($_POST["formCoretax"])) {
                 }
                 case '9': {
                     //ID TKU Penjual
-                    $sheetFaktur->setCellValue('I' . $exRow, str_pad($NPWPSELLER,22,"0",STR_PAD_RIGHT));
+                    $sheetFaktur->setCellValue('J' . $exRow, str_pad($NPWPSELLER,22,"0",STR_PAD_RIGHT));
                     break;
                 }
                 case '10': {
@@ -170,7 +172,7 @@ if (isset($_POST["btnSearch2"]) && isset($_POST["formCoretax"])) {
                     }else if(isset($rowHeader["NIK"])){
                         $temp = "0000000000000000";
                     }
-                    $sheetFaktur->setCellValue('J' . $exRow, $temp);
+                    $sheetFaktur->setCellValue('K' . $exRow, $temp);
                     break;
                 }
                 case '11': {
@@ -180,22 +182,22 @@ if (isset($_POST["btnSearch2"]) && isset($_POST["formCoretax"])) {
                     }else if(isset($rowHeader["NIK"])){
                         $temp = "National ID";
                     }
-                    $sheetFaktur->setCellValue('K' . $exRow, $temp);
+                    $sheetFaktur->setCellValue('L' . $exRow, $temp);
                     break;
                 }
                 case '12': {
                     //Negara Pembeli
-                    $sheetFaktur->setCellValue('L' . $exRow, 'IDN');
+                    $sheetFaktur->setCellValue('M' . $exRow, 'IDN');
                     break;
                 }
                 case '13': {
-                    //JIKA PAKAI KTP DIISI NIK
+                    $temp = "-";
+                    //Nomor Dokumen Pembeli
                     if($rowHeader["NIK"] != "" && $rowHeader["NIK"] != '-'){
-                        $temp = str_pad($rowHeader["NIK"],17," ",STR_PAD_RIGHT);
-                    }else{
-                        $temp = "";
+                        //$temp = str_pad($rowHeader["NIK"],17," ",STR_PAD_RIGHT);
+                        $temp = $rowHeader["NIK"] . "'";
                     }
-                    $sheetFaktur->setCellValue('M' . $exRow, $temp);
+                    $sheetFaktur->setCellValue('N' . $exRow, $temp);
                     break;
                 }
                 case '14': {
@@ -205,7 +207,7 @@ if (isset($_POST["btnSearch2"]) && isset($_POST["formCoretax"])) {
                     }else if(isset($rowHeader["KTPName"])){
                         $temp = $rowHeader["KTPName"];
                     }
-                    $sheetFaktur->setCellValue('N' . $exRow, $temp);
+                    $sheetFaktur->setCellValue('O' . $exRow, $temp);
                     break;
                 }
                 case '15': {
@@ -215,7 +217,7 @@ if (isset($_POST["btnSearch2"]) && isset($_POST["formCoretax"])) {
                     }else if(isset($rowHeader["KTPAddress"])){
                         $temp = $rowHeader["KTPAddress"];
                     }
-                    $sheetFaktur->setCellValue('O' . $exRow, $temp);
+                    $sheetFaktur->setCellValue('P' . $exRow, $temp);
                     break;
                 }
                 case '16': {
@@ -225,7 +227,7 @@ if (isset($_POST["btnSearch2"]) && isset($_POST["formCoretax"])) {
                     }else{
                         $temp = "";
                     }
-                    $sheetFaktur->setCellValue('P' . $exRow, '-');
+                    $sheetFaktur->setCellValue('Q' . $exRow, '-');
                     break;
                 }
                 case '17': {
@@ -235,7 +237,7 @@ if (isset($_POST["btnSearch2"]) && isset($_POST["formCoretax"])) {
                     }else if(isset($rowHeader["NIK"])){
                         $temp = "000000";
                     }
-                    $sheetFaktur->setCellValue('Q' . $exRow, $temp);
+                    $sheetFaktur->setCellValue('R' . $exRow, $temp);
                     break;
                 }
             }
