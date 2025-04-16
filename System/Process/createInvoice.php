@@ -14,7 +14,8 @@ if (isset($_COOKIE["UserID"]) && !empty($_COOKIE["UserID"])) {
 date_default_timezone_set("Asia/Jakarta");
 
 // Generate Invoice ID
-$query = "SELECT InvoiceID FROM invoiceheader WHERE substr(CreatedOn,6,2)='" . date("m") . "' ORDER BY InvoiceID DESC LIMIT 1";
+$month = substr($_POST["invdate"],5,2);
+$query = "SELECT InvoiceID FROM invoiceheader WHERE substr(CreatedOn,6,2)='" . $month . "' ORDER BY InvoiceID DESC LIMIT 1";
 $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
 
@@ -26,7 +27,9 @@ if ($row["InvoiceID"] != "") {
     $lastnumber = 1;
 }
 
-$invid = "SINV-" . date("ym") . "-" . str_pad($lastnumber, 4, "0", STR_PAD_LEFT);
+//NEW INVOICE ID
+//$invid = "SINV-" . date("ym") . "-" . str_pad($lastnumber, 4, "0", STR_PAD_LEFT);
+$invid = "SINV-" . date("y") . $month . "-" . str_pad($lastnumber, 4, "0", STR_PAD_LEFT);
 
 // Retrieve form data
 $salesorder = explode(" - ", $_POST["salesorder"])[0];

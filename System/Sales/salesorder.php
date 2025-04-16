@@ -88,7 +88,7 @@
                         <input type="number" class="form-control digits" name="quantities[]" placeholder="0" required>
                     </td>
                     <td>
-                        <input type="number" class="form-control digits" name="discounts[]" placeholder="0">
+                        <input type="text" class="form-control" name="discounts[]" placeholder="0">
                     </td>
                     <td>
                         <button id="${i}" type="button" class="btn btn-danger bremove"><i class="icofont icofont-close-line-circled"></i></button>
@@ -353,130 +353,78 @@
                                                         }
                                                         ?>
                                                         <!-- Tombol untuk membuka modal -->
-                                                        <button class="btn btn-outline-primary" type="button"
-                                                            data-bs-toggle="modal" data-bs-target=".modal-sales-order"
-                                                            <?php echo $hasAccess ? '' : 'disabled'; ?>>
-                                                            <i class="fa fa-plus-circle"></i> New Sales
-                                                            Order
-                                                        </button>
-                                                        <div class="modal fade modal-sales-order" tabindex="-1"
-                                                            role="dialog" aria-labelledby="myExtraLargeModal"
-                                                            aria-hidden="true">
+                                                        <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target=".modal-sales-order" <?php echo $hasAccess ? '' : 'disabled'; ?>> <i class="fa fa-plus-circle"></i> New Sales Order </button>
+                                                        <div class="modal fade modal-sales-order" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModal" aria-hidden="true">
                                                             <div class="modal-dialog modal-xl">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h4 class="modal-title" id="myExtraLargeModal">
-                                                                            Sales Order
-                                                                            Baru</h4>
-                                                                        <button class="btn-close py-0" type="button"
-                                                                            data-bs-dismiss="modal"
-                                                                            aria-label="Close"></button>
+                                                                        <h4 class="modal-title" id="myExtraLargeModal"> Sales Order Baru</h4>
+                                                                        <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                     </div>
                                                                     <div class="modal-body dark-modal">
                                                                         <div class="card-body custom-input">
-                                                                            <form class="row g-3"
-                                                                                action="../Process/createSalesOrder.php"
-                                                                                method="POST">
+                                                                            <form class="row g-3" action="../Process/createSalesOrder.php" method="POST">
                                                                                 <div class="col-4">
-                                                                                    <label class="form-label"
-                                                                                        for="soid">SO ID<span
-                                                                                            style="color:red;">*</span></label>
-                                                                                    <input class="form-control"
-                                                                                        id="soid" type="text"
-                                                                                        placeholder="auto-generated"
-                                                                                        aria-label="First name"
-                                                                                        readonly>
+                                                                                    <label class="form-label" for="soid">SO ID<span style="color:red;">*</span></label>
+                                                                                    <input class="form-control" id="soid" type="text" placeholder="auto-generated" aria-label="First name" readonly>
                                                                                 </div>
                                                                                 <div class="col-4">
-                                                                                    <label class="form-label"
-                                                                                        for="exampleFormControlInput1">Tanggal<span
-                                                                                            style="color:red;">*</span></label>
-                                                                                    <input class="form-control"
-                                                                                        id="exampleFormControlInput1"
-                                                                                        type="date"
-                                                                                        value="<?php echo date('Y-m-d'); ?>"
-                                                                                        readonly>
+                                                                                    <label class="form-label" for="exampleFormControlInput1">Tanggal<span style="color:red;">*</span></label>
+                                                                                    <!--<input class="form-control" id="exampleFormControlInput1" type="date" value="<?php echo date('Y-m-d'); ?>" readonly>-->
+                                                                                    <input class="form-control" id="exampleFormControlInput1" name="datetime" type="datetime-local" required>
                                                                                 </div>
                                                                                 <div class="col-4">
-                                                                                    <label class="form-label"
-                                                                                        for="creator">Pembuat
-                                                                                        SO<span
-                                                                                            style="color:red;">*</span></label>
-                                                                                    <input class="form-control"
-                                                                                        id="creator" name="creator"
-                                                                                        type="text"
-                                                                                        value="<?php echo $_COOKIE["UserID"] . ' - ' . $_COOKIE["Name"] ?>"
-                                                                                        readonly>
+                                                                                    <label class="form-label" for="creator">Pembuat  SO<span style="color:red;">*</span></label>
+                                                                                    <input class="form-control" id="creator" name="creator" type="text" value="<?php echo $_COOKIE["UserID"] . ' - ' . $_COOKIE["Name"] ?>" readonly>
                                                                                 </div>
                                                                                 <div class="col-4">
-                                                                                    <label class="form-label"
-                                                                                        for="customer">Pelanggan<span
-                                                                                            style="color:red;">*</span></label>
-                                                                                    <input class="form-control"
-                                                                                        id="customer" name="customer"
-                                                                                        list="custOptions"
-                                                                                        placeholder="-- Pilih Pelanggan --"
-                                                                                        onchange="getPLGroup(this.value)"
-                                                                                        required>
+                                                                                    <label class="form-label" for="customer">Pelanggan<span style="color:red;">*</span></label>
+                                                                                    <input class="form-control" id="customer" name="customer" list="custOptions" placeholder="-- Pilih Pelanggan --" onchange="getPLGroup(this.value)" required>
                                                                                     <datalist id="custOptions">
                                                                                         <?php
-                                                                                        $queryc = "SELECT * FROM customer";
-                                                                                        $resultc = mysqli_query($conn, $queryc);
-                                                                                        while ($rowc = mysqli_fetch_array($resultc)) {
-                                                                                            echo '<option value="' . $rowc["CustID"] . '">' . $rowc["CustName"] . '</option>';
-                                                                                        }
+                                                                                            $queryc = "SELECT * FROM customer";
+                                                                                            $resultc = mysqli_query($conn, $queryc);
+                                                                                            while ($rowc = mysqli_fetch_array($resultc)) {
+                                                                                                echo '<option value="' . $rowc["CustID"] . '">' . $rowc["CustName"] . '</option>';
+                                                                                            }
                                                                                         ?>
                                                                                     </datalist>
                                                                                 </div>
                                                                                 <div class="col-4">
-                                                                                    <label class="form-label"
-                                                                                        for="pricelist"><i>Price
-                                                                                            List</i></label>
+                                                                                    <label class="form-label" for="pricelist"><i>Price List</i></label>
                                                                                     <div id="pricelist">
                                                                                         -
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-4">
-                                                                                    <label class="form-label"
-                                                                                        for="marketing">Marketing<span
-                                                                                            style="color:red;">*</span></label>
-                                                                                    <input class="form-control"
-                                                                                        id="marketing" name="marketing"
-                                                                                        list="marketingOptions"
-                                                                                        placeholder="-- Pilih Marketing --"
-                                                                                        required>
+                                                                                    <label class="form-label" for="marketing">Marketing<span style="color:red;">*</span></label>
+                                                                                    <input class="form-control" id="marketing" name="marketing" list="marketingOptions" placeholder="-- Pilih Marketing --" required>
                                                                                     <datalist id="marketingOptions">
                                                                                         <?php
-                                                                                        $querym = "SELECT * FROM systemuser";
-                                                                                        $resultm = mysqli_query($conn, $querym);
-                                                                                        while ($rowm = mysqli_fetch_array($resultm)) {
-                                                                                            echo '<option value="' . $rowm["UserID"] . '">' . $rowm["Name"] . '</option>';
-                                                                                        }
+                                                                                            $querym = "SELECT * FROM systemuser";
+                                                                                            $resultm = mysqli_query($conn, $querym);
+                                                                                            while ($rowm = mysqli_fetch_array($resultm)) {
+                                                                                                echo '<option value="' . $rowm["UserID"] . '">' . $rowm["Name"] . '</option>';
+                                                                                            }
                                                                                         ?>
                                                                                     </datalist>
                                                                                 </div>
                                                                                 <div class="col-3">
-                                                                                    <label class="form-label"
-                                                                                        for="logo">Logo</label>
-                                                                                    <input class="form-control"
-                                                                                        id="logo" name="logo"
-                                                                                        list="logoOptions">
+                                                                                    <label class="form-label" for="logo">Logo</label>
+                                                                                    <input class="form-control" id="logo" name="logo" list="logoOptions">
                                                                                     <datalist id="logoOptions">
                                                                                         <?php
-                                                                                        $querym = "SELECT * FROM logo";
-                                                                                        $resultm = mysqli_query($conn, $querym);
-                                                                                        while ($rowm = mysqli_fetch_array($resultm)) {
-                                                                                            echo '<option value="' . $rowm["LogoName"] . '"></option>';
-                                                                                        }
+                                                                                            $querym = "SELECT * FROM logo";
+                                                                                            $resultm = mysqli_query($conn, $querym);
+                                                                                            while ($rowm = mysqli_fetch_array($resultm)) {
+                                                                                                echo '<option value="' . $rowm["LogoName"] . '"></option>';
+                                                                                            }
                                                                                         ?>
                                                                                     </datalist>
                                                                                 </div>
                                                                                 <div class="col-9">
-                                                                                    <label class="form-label"
-                                                                                        for="desc">Keterangan</label>
-                                                                                    <input class="form-control"
-                                                                                        id="desc" name="desc"
-                                                                                        type="text" placeholder="...">
+                                                                                    <label class="form-label" for="desc">Keterangan</label>
+                                                                                    <input class="form-control" id="desc" name="desc" type="text" placeholder="...">
                                                                                 </div>
                                                                                 <hr>
                                                                                 <h3>Detil Order</h3>
@@ -493,12 +441,7 @@
                                                                                     <tbody id="dbody">
                                                                                         <tr id="row1">
                                                                                             <td>
-                                                                                                <input type="text"
-                                                                                                    class="form-control prodlist"
-                                                                                                    name="products[]"
-                                                                                                    list="prodOptions"
-                                                                                                    onChange="appendProductTable(this)"
-                                                                                                    required>
+                                                                                                <input type="text" class="form-control prodlist" name="products[]" list="prodOptions" onChange="appendProductTable(this)" required>
                                                                                                 <datalist
                                                                                                     id="prodOptions">
                                                                                                     <?php
@@ -511,24 +454,13 @@
                                                                                                 </datalist>
                                                                                             </td>
                                                                                             <td>
-                                                                                                <input type="text"
-                                                                                                    class="form-control"
-                                                                                                    name="prices[]"
-                                                                                                    placeholder="0"
-                                                                                                    readonly>
+                                                                                                <input type="text" class="form-control" name="prices[]" placeholder="0" readonly>
                                                                                             </td>
                                                                                             <td>
-                                                                                                <input type="number"
-                                                                                                    class="form-control digits"
-                                                                                                    name="quantities[]"
-                                                                                                    placeholder="0"
-                                                                                                    required>
+                                                                                                <input type="number" class="form-control digits" name="quantities[]" placeholder="0" required>
                                                                                             </td>
                                                                                             <td>
-                                                                                                <input type="number"
-                                                                                                    class="form-control digits"
-                                                                                                    name="discounts[]"
-                                                                                                    placeholder="0">
+                                                                                                <input type="text" class="form-control" name="discounts[]" placeholder="0">
                                                                                             </td>
                                                                                             <td>
 
@@ -539,20 +471,12 @@
                                                                                 <hr>
                                                                                 <div class="col-12">
                                                                                     <div class="form-check form-switch">
-                                                                                        <input class="form-check-input"
-                                                                                            id="flexSwitchCheckDefault"
-                                                                                            type="checkbox"
-                                                                                            role="switch" required>
-                                                                                        <label class="form-check-label"
-                                                                                            for="flexSwitchCheckDefault">Apakah
-                                                                                            informasi diatas sudah
-                                                                                            benar?</label>
+                                                                                        <input class="form-check-input" id="flexSwitchCheckDefault" type="checkbox" role="switch" required>
+                                                                                        <label class="form-check-label" for="flexSwitchCheckDefault">Apakah informasi diatas sudah benar?</label>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="col-12">
-                                                                                    <button class="btn btn-primary"
-                                                                                        type="submit"
-                                                                                        name="submitSO">Submit</button>
+                                                                                    <button class="btn btn-primary" type="submit" name="submitSO">Submit</button>
                                                                                 </div>
                                                                             </form>
                                                                         </div>
@@ -560,27 +484,12 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <button class="btn btn-primary dropdown-toggle" type="button"
-                                                            data-bs-toggle="dropdown"
-                                                            aria-expanded="false">Menu</button>
+                                                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Menu</button>
                                                         <ul class="dropdown-menu dropdown-block" id="myTab"
                                                             role="tablist">
-                                                            <li class="nav-item"><a
-                                                                    class="dropdown-item active txt-primary f-w-500 f-18"
-                                                                    id="home-tab" data-bs-toggle="tab" href="#SOPending"
-                                                                    role="tab" aria-controls="home"
-                                                                    aria-selected="true">SO Pending</a></li>
-                                                            <li class="nav-item"><a
-                                                                    class="dropdown-item txt-primary f-w-500 f-18"
-                                                                    id="profile-tabs" data-bs-toggle="tab"
-                                                                    href="#SOComplete" role="tab"
-                                                                    aria-controls="profile" aria-selected="false">SO
-                                                                    Complete</a></li>
-                                                            <li class="nav-item"><a
-                                                                    class="dropdown-item txt-primary f-w-500 f-18"
-                                                                    id="close-tabs" data-bs-toggle="tab" href="#SOClose"
-                                                                    role="tab" aria-controls="close"
-                                                                    aria-selected="false">SO Closed</a></li>
+                                                            <li class="nav-item"><a class="dropdown-item active txt-primary f-w-500 f-18" id="home-tab" data-bs-toggle="tab" href="#SOPending" role="tab" aria-controls="home" aria-selected="true">SO Pending</a></li>
+                                                            <li class="nav-item"><a class="dropdown-item txt-primary f-w-500 f-18" id="profile-tabs" data-bs-toggle="tab" href="#SOComplete" role="tab" aria-controls="profile" aria-selected="false">SO Complete</a></li>
+                                                            <li class="nav-item"><a class="dropdown-item txt-primary f-w-500 f-18" id="close-tabs" data-bs-toggle="tab" href="#SOClose" role="tab" aria-controls="close" aria-selected="false">SO Closed</a></li>
                                                         </ul>
                                                     </div>
                                                     <div class="col-md-9">

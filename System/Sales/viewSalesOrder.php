@@ -433,7 +433,7 @@
                                                             <td><a data-toggle="collapse" href="#' . $rowd["ProductName"] . '" role="button" aria-expanded="false" aria-controls="collapseExample"><i class="fa fa-plus-square-o"></i></a></td>
                                                             <td>' . $rowd["ProductName"] . '</td>
                                                             <td>' . $rowd["Price"] . '</td>
-                                                            <td>' . number_format($rowd["Discount"], 0, ',', '.') . '</td>
+                                                            <td>' . number_format($rowd["Discount"], 1, ',', '.') . '</td>
                                                             <td>' . number_format($rowd["Quantity"], 0, ',', '.') . '</td>
                                                             <td>' . number_format($rowd["QuantitySent"], 0, ',', '.') . '</td>
                                                             <td>' . number_format($rowd["Quantity"] - $rowd["QuantitySent"], 0, ',', '.') . '</td>

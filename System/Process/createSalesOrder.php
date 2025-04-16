@@ -11,7 +11,8 @@ include "../DBConnection.php";
 date_default_timezone_set("Asia/Jakarta");
 
 // Generate SO ID
-$query = "SELECT SalesOrderID FROM salesorderheader WHERE substr(CreatedOn, 6, 2) = '" . date("m") . "' ORDER BY CreatedOn DESC LIMIT 1";
+$month = substr($_POST["datetime"],5,2);
+$query = "SELECT SalesOrderID FROM salesorderheader WHERE substr(CreatedOn, 6, 2) = '" . $month . "' ORDER BY CreatedOn DESC LIMIT 1";
 $result = mysqli_query($conn, $query);
 $row = mysqli_fetch_assoc($result);
 
@@ -24,7 +25,8 @@ if ($row && !empty($row["SalesOrderID"])) {
 }
 
 // New Sales Order ID
-$soid = "SO-" . date("ym") . "-" . str_pad($lastnumber, 4, "0", STR_PAD_LEFT);
+//$soid = "SO-" . date("ym") . "-" . str_pad($lastnumber, 4, "0", STR_PAD_LEFT);
+$soid = "SO-" . date("y") . $month . "-" . str_pad($lastnumber, 4, "0", STR_PAD_LEFT);
 
 // Parameters
 $creator = $_COOKIE["UserID"] ?? 'unknown'; // Using cookie for creator
@@ -33,7 +35,8 @@ $customer = $_POST["customer"];
 $pricelistcd = $_POST["pricelistcd"];
 $logo = $_POST["logo"];
 $desc = $_POST["desc"];
-$datetime = date('Y-m-d H:i:s');
+//$datetime = date('Y-m-d H:i:s');
+$datetime = $_POST["datetime"];
 
 // Approval checking
 $approval = 0;

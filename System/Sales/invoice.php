@@ -406,38 +406,19 @@
                                                                 <div class="modal-dialog modal-xl">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h4 class="modal-title"
-                                                                                id="myExtraLargeModal">Invoice
-                                                                                Baru</h4>
-                                                                            <button class="btn-close py-0" type="button"
-                                                                                data-bs-dismiss="modal"
-                                                                                aria-label="Close"></button>
+                                                                            <h4 class="modal-title"  id="myExtraLargeModal">Invoice Baru</h4>
+                                                                            <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                                                                         </div>
                                                                         <div class="modal-body dark-modal">
                                                                             <div class="card-body custom-input">
-                                                                                <form class="row g-3"
-                                                                                    action="../Process/createInvoice.php"
-                                                                                    method="POST">
+                                                                                <form class="row g-3" action="../Process/createInvoice.php" method="POST">
                                                                                     <div class="col-3">
-                                                                                        <label class="form-label"
-                                                                                            for="exampleFormControlInput1">Tanggal</label>
-                                                                                        <input class="form-control"
-                                                                                            name="invdate"
-                                                                                            id="exampleFormControlInput1"
-                                                                                            type="datetime-local"
-                                                                                            value="<?php echo date('Y-m-d H:i:s'); ?>"
-                                                                                            required>
+                                                                                        <label class="form-label" for="exampleFormControlInput1">Tanggal</label>
+                                                                                        <input class="form-control" name="invdate" id="exampleFormControlInput1" type="datetime-local" value="<?php echo date('Y-m-d H:i:s'); ?>" required>
                                                                                     </div>
                                                                                     <div class="col-6">
-                                                                                        <label class="form-label"
-                                                                                            for="salesorders">Pilih
-                                                                                            Sales Order</label>
-                                                                                        <input class="form-control"
-                                                                                            id="salesorders"
-                                                                                            name="salesorder"
-                                                                                            list="soOptions"
-                                                                                            placeholder="Pilih Sales Order --"
-                                                                                            required>
+                                                                                        <label class="form-label" for="salesorders">Pilih Sales Order</label>
+                                                                                        <input class="form-control" id="salesorders" name="salesorder" list="soOptions" placeholder="Pilih Sales Order --" required>
                                                                                         <datalist id="soOptions">
                                                                                             <?php
                                                                                             $query = "SELECT soh.SalesOrderID, c.CustName 
@@ -454,31 +435,16 @@
                                                                                         </datalist>
                                                                                     </div>
                                                                                     <div class="col-3">
-                                                                                        <label class="form-label"
-                                                                                            for="buttonGen"><i>Generate</i></label>
-                                                                                        <button
-                                                                                            class="form-control btn btn-primary"
-                                                                                            type="button"
-                                                                                            id="buttonGen">Generate</button>
+                                                                                        <label class="form-label" for="buttonGen"><i>Generate</i></label>
+                                                                                        <button class="form-control btn btn-primary" type="button" id="buttonGen">Generate</button>
                                                                                     </div>
                                                                                     <div class="col-3">
-                                                                                        <label class="form-label"
-                                                                                            for="custid">ID
-                                                                                            Pelanggan<span
-                                                                                                style="color:red;">*</span></label>
-                                                                                        <input class="form-control"
-                                                                                            id="custid" name="custid"
-                                                                                            type="text" readonly>
+                                                                                        <label class="form-label" for="custid">ID Pelanggan<span style="color:red;">*</span></label>
+                                                                                        <input class="form-control" id="custid" name="custid" type="text" readonly>
                                                                                     </div>
                                                                                     <div class="col-3">
-                                                                                        <label class="form-label"
-                                                                                            for="custname">Nama
-                                                                                            Pelanggan<span
-                                                                                                style="color:red;">*</span></label>
-                                                                                        <input class="form-control"
-                                                                                            id="custname"
-                                                                                            name="custname" type="text"
-                                                                                            readonly>
+                                                                                        <label class="form-label" for="custname">Nama Pelanggan<span style="color:red;">*</span></label>
+                                                                                        <input class="form-control" id="custname" name="custname" type="text" readonly>
                                                                                     </div>
                                                                                     <script>
                                                                                         function formatRupiah(element) {
@@ -492,23 +458,12 @@
                                                                                         }
                                                                                     </script>
                                                                                     <div class="col-3">
-                                                                                        <label class="form-label"
-                                                                                            for="amountField">
-                                                                                            Jumlah DP <span
-                                                                                                style="color:red;">*</span>
+                                                                                        <label class="form-label" for="amountField"> Jumlah DP <span style="color:red;">*</span>
                                                                                         </label>
-                                                                                        <input class="form-control"
-                                                                                            id="amountField"
-                                                                                            name="amountField"
-                                                                                            type="text" readonly
-                                                                                            oninput="formatRupiah(this)"
-                                                                                            onfocus="removeFormat(this)"
-                                                                                            onblur="formatRupiah(this)">
+                                                                                        <input class="form-control" id="amountField" name="amountField" type="text" readonly oninput="formatRupiah(this)" onfocus="removeFormat(this)"  onblur="formatRupiah(this)">
                                                                                     </div>
                                                                                     <div class="col-3">
-                                                                                        <label class="form-label"
-                                                                                            for="pricelist"><i>Price
-                                                                                                List</i></label>
+                                                                                        <label class="form-label" for="pricelist"><i>Price List</i></label>
                                                                                         <div id="pricelist">
                                                                                             -
                                                                                         </div>
